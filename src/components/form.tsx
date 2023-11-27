@@ -12,7 +12,7 @@ export default function Form({
   const handleSubmit = (event?: FormEvent<HTMLFormElement> | SubmitEvent) => {
     event?.preventDefault();
 
-    if (message.length > 0) {
+    if (message.trim().length > 0) {
       onSubmit(message);
       setTimeout(() => setMessage(""), 100);
 

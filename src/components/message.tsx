@@ -19,7 +19,7 @@ export default function Message({
           <div className={`text-${background}-400`}>{message.name}</div>
           <div
             dangerouslySetInnerHTML={{
-              __html: parse(message.content.toString()),
+              __html: parse(message.content.toString().replace('<a ', '<a target="_blank" ')),
             }}
           />
           {/* <time className={`text-xs font-bold text-${background}-400`}>
