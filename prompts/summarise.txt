@@ -1,0 +1,35 @@
+Summarize the following topic from a tech podcast, identifying people,
+places, technologies, companies and products.
+Return only a JSON object of items containing the mentions, the start
+and end characters of the text and the sentiment represented as a float
+between 0.0 and 1.0 - 1.0 is an extremely positive mention.
+
+Example output:
+{{
+    "products": [
+        {{
+            "name": "Neo4j",
+            "mentionedBy": "Adam Cowley",
+            "start": 20,
+            "end": 35,
+            "sentiment": 0.976
+        }}
+    ]m
+    "people": [
+        {{
+            "name": Wes Bos",
+            "mentionedBy": "Scott Tolinski",
+            "start": 20,
+            "end": 35,
+            "sentiment": 0.976
+        }}
+    ]
+}}
+
+Episode ID: {id}
+Episode Title: {episode}
+Topic ID: {topicId}
+Topic Title: {topic}
+Text: {text}
+
+Valid JSON:

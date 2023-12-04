@@ -2,11 +2,27 @@ import { Neo4jVectorStore } from "langchain/vectorstores/neo4j_vector";
 import { embeddings } from "./llm";
 import { VectorStoreRetriever } from "langchain/vectorstores/base";
 import { Neo4jGraph } from "langchain/graphs/neo4j_graph";
+import neo4j, { Driver } from "neo4j-driver";
 
+let driver: Driver
 let graph: Neo4jGraph
 let vectorStore: Neo4jVectorStore
 let retriever: VectorStoreRetriever
 
+
+export async function initDriver(): Promise<Driver> {
+    if (!driver) {
+        driver = neo4j.driver(
+            process.env.NEO4J_URI as string,
+            neo4j.auth.basic(
+                process.env.NEO4J_USERNAME as string,
+                process.env.NEO4J_PASSWORD as string,
+            )
+        )
+    }
+
+    return driver
+}
 
 export async function initNeo4j(): Promise<Neo4jGraph> {
     if (!graph) {

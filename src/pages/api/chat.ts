@@ -27,7 +27,7 @@ export default async function handler(
       const agent = await initAgent()
       const response = await agent.invoke({ input: message })
 
-      console.log(response)
+      console.log(JSON.stringify(response.intermediateSteps, null, 2))
 
 
       return res.status(201).json({
