@@ -4,21 +4,26 @@ import { ChainTool } from "langchain/tools";
 import initNeo4jRagRetrieverChain from "./tools/rag";
 
 import { Calculator } from "langchain/tools/calculator";
-import initCypherQAChain from "./tools/cypher";
+import initCypherQAChain, { initCustomCypherQAChain } from "./tools/cypher";
 
 
 export default async function initAgent() {
     const tools = [
+        // new ChainTool({
+        //     name: 'Neo4jCypherQAChain',
+        //     description: 'Useful when answering questions about people, companies, technologies or frameworks',
+        //     chain: await initCypherQAChain()
+        // }),
+        // new ChainTool({
+        //     name: 'Neo4jRAGRetrieverChain',
+        //     description: 'Useful when you need to identify text using semantic search using the the vector retriever',
+        //     chain: await initNeo4jRagRetrieverChain()
+        // }),
         new ChainTool({
-            name: 'Neo4jCypherQAChain',
-            description: 'Useful when answering questions about people, companies, technologies or frameworks',
-            chain: await initCypherQAChain()
-        }),
-        new ChainTool({
-            name: 'Neo4jRAGRetrieverChain',
-            description: 'Useful when you need to identify text using semantic search using the the vector retriever',
-            chain: await initNeo4jRagRetrieverChain()
-        }),
+            name: 'CypherChain',
+            description: 'Useful when you need to write a Cypher query to answer a question ',
+            chain: await initCustomCypherQAChain(),
+        })
     ]
 
 

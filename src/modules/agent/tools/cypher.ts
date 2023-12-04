@@ -3,6 +3,8 @@ import { GraphCypherQAChain } from "langchain/chains/graph_qa/cypher";
 import { llm } from "@/modules/llm";
 import { initNeo4j } from "@/modules/neo4j";
 import { PromptTemplate } from "langchain/prompts";
+import { RunnableLike, RunnableSequence } from "langchain/runnables";
+import { StringOutputParser } from "@langchain/core/output_parsers";
 
 /*
 Task:Generate Cypher statement to query a graph database.
@@ -39,4 +41,21 @@ export default async function initCypherQAChain(): Promise<GraphCypherQAChain> {
         graph,
         cypherPrompt
     })
+}
+
+export async function initCustomCypherQAChain(): Promise<RunnableSequence> {
+    const graph = await initNeo4j()
+
+    interface CypherQAChainInput {
+        question: string
+    }
+    return RunnableSequence.from<CypherQAChainInput, string>([
+        {
+            question: (input: CypherQAChainInput) => input.question,
+            schema: () => graph.getSchema(),
+        },
+        cypherPrompt,
+        llm,
+        new StringOutputParser(),
+    ])
 }
