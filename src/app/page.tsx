@@ -4,7 +4,7 @@ import Form from "@/components/form";
 import Message from "@/components/message";
 import Thinking from "@/components/thinking";
 import useChat from "@/hooks/chat";
-import React from "react";
+import React, { useState } from "react";
 
 export default function Home() {
   const { messages, thinking, container, generateResponse } = useChat();
@@ -17,7 +17,9 @@ export default function Home() {
       >
         <div className="p-4  bg-blue-800 flex flex-row justify-between">
           <h1 className="text-white">
-            <span className="font-bold">{process.env.NEXT_PUBLIC_CHATBOT_NAME} -</span>
+            <span className="font-bold">
+              {process.env.NEXT_PUBLIC_CHATBOT_NAME} -
+            </span>
             <span className="text-blue-100">
               {" "}
               {process.env.NEXT_PUBLIC_CHATBOT_DESCRIPTION}
@@ -36,11 +38,17 @@ export default function Home() {
           {thinking && <Thinking />}
         </div>
 
-        <Form container={container} onSubmit={(m) => generateResponse(m)} />
+        <Form
+          container={container}
+          messages={messages}
+          onSubmit={(m) => generateResponse(m)}
+        />
 
         <div className="flex flex-row justify-between b-slate-200 px-4 pb-4 bg-slate-100 text-xs text-slate-600">
           <div className="animate-pulse">
-            {thinking ? `🤔 ${process.env.NEXT_PUBLIC_CHATBOT_NAME} is thinking...` : " "}
+            {thinking
+              ? `🤔 ${process.env.NEXT_PUBLIC_CHATBOT_NAME} is thinking...`
+              : " "}
           </div>
           <div>
             Powered by

@@ -1,4 +1,5 @@
 import initAgent from "@/modules/agent/agent";
+import { initCypherEvaluationChain, initCypherGenerationChain } from "@/modules/agent/tools/cypher";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 type ResponseData = {
@@ -24,15 +25,19 @@ export default async function handler(
       // const chain = await initNeo4jRagRetrieverChain()
       // const response = await chain.invoke(message)
 
-      const agent = await initAgent()
-      const response = await agent.invoke({ input: message })
+      // const agent = await initAgent()
+      // const response = await agent.invoke({ input: message })
 
-      console.log(JSON.stringify(response.intermediateSteps, null, 2))
+      console.log(message);
+
+
+      const chain = await initCypherEvaluationChain()
+      const response = await chain.invoke({ question: message })
 
 
       return res.status(201).json({
         // @ts-ignore
-        message: response.output
+        message: response
       })
     } catch (e: any) {
       res.status(500).json({
